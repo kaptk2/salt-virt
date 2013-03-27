@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html ng-app="saltVirt">
 	<head>
-		<title>JS Testing</title>
+		<title>Salt-Virt</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- Bootstrap -->
-		<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
 		<!--Local CSS File(s)-->
 		<link href="css/screen.css" rel="stylesheet">
 
@@ -15,13 +16,13 @@
 
 	</head>
 	<body>
-		<!- Begin Error Message -->
+		<!-- Begin Error Message -->
 		<div class="alert alert-error" id="access-error" style="display: none;">
 			<button id="error-close" type="button" class="close">&times;</button>
 			Insufficient access. Please check the user name.
 		</div>
-		<!- End Error Message-->
-		<!- Begin Login Form-->
+		<!-- End Error Message-->
+		<!-- Begin Login Form-->
 		<div id="login" class="modal hide fade">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -48,36 +49,40 @@
 				</div>
 			</form>
 		</div>
-		<!- End Login Form-->
+		<!-- End Login Form-->
+
+		<!-- Navbar -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
-				<div class="container-fluid">
-					<a class="brand" href="#vms">VirtMan</a>
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="brand" href="./index.html">Salt-Virt</a>
 					<div class="nav-collapse collapse">
-						<p class="navbar-text pull-right">
-							<a href="#" class="navbar-link">Logout</a>
-						</p>
 						<ul class="nav">
-							<li class="active"><a href="#">Home</a></li>
-							<li><a href="#about">About</a></li>
-							<li><a href="#contact">Help</a></li>
+							<li><a href="https://github.com/kaptk2/salt-virt">About</a></li>
+							<li><a href="https://github.com/kaptk2/salt-virt/wiki">Help</a></li>
 						</ul>
-					</div><!--/.nav-collapse -->
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span3 well" data-offset-top="50">
-					<div class="sidebar-nav">
-						<ul class="nav nav-list">
+		<div class="container">
+
+			<!-- Sidebar Links -->
+			<div class="row">
+				<div class="span3">
+						<ul class="well nav nav-list" data-spy="affix" data-offset-top="50">
 							<li class="nav-header">Operations</li>
 							<li><a href="#">Create VM</a></li>
-							<li><a href="#">Evacuate Node</a></li>
+							<li><a href="#">Evacuate Hypervisor</a></li>
 						</ul>
-					</div><!--/.well -->
-				</div><!--/span-->
+				</div>
+				<!-- Main Content -->
 				<div class="span9">
 					<div class="well">
 						<div class="tabbable">
@@ -116,7 +121,7 @@
 														<span class="caret"></span>
 														</button>
 														<ul class="dropdown-menu">
-															<li><a href="#">Power On / Power Off</a></li>
+															<li><a href="#">Power On</a></li>
 															<li><a href="#">Reboot</a></li>
 															<li><a href="#">Power Cycle</a></li>
 															<li><a href="#">Force Off</a></li>
