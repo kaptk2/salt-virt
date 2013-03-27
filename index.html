@@ -100,7 +100,7 @@
 							</ul>
 							<div class="tab-content" ng-controller="VmListCtrl">
 								<div class="tab-pane active" id="vms">
-									<table class="table table-hover table-bordered">
+									<table class="table table-hover">
 										<thead>
 											<tr>
 												<th>Status</th>
@@ -113,7 +113,11 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="vm in vms | filter:query">
-												<td>{{vm.vm_info.state}}</td>
+												<td ng-switch on="vm.vm_info.state" style="text-align: center;">
+													<i class="icon-play" ng-switch-when="running"></i>
+													<i class="icon-stop" ng-switch-when="shutdown"></i>
+													<i class="icon-pause" ng-switch-when="paused"></i>
+												</td>
 												<td>{{vm.vm_name}}</td>
 												<td>{{vm.vm_host}}</td>
 												<td>{{vm.vm_info.mem / 1024}} MB</td>
@@ -125,7 +129,11 @@
 														<span class="caret"></span>
 														</button>
 														<ul class="dropdown-menu">
-															<li><a href="#">Power On</a></li>
+															<li ng-switch on="vm.vm_info.state">
+																<a href="#" ng-switch-when="running">Power Off</a>
+																<a href="#" ng-switch-when="shutdown">Power On</a>
+																<a href="#" ng-switch-when="paused">Resume</a>
+															</li>
 															<li><a href="#">Reboot</a></li>
 															<li><a href="#">Power Cycle</a></li>
 															<li><a href="#">Force Off</a></li>
@@ -150,10 +158,6 @@
 												<th>Memory Total</th>
 												<th>CPUs</th>
 												<th>CPU MHz</th>
-												<th>Cores</th>
-												<th>CPU Model</th>
-												<th>CPU Threads</th>
-												<th>Sockets</th>
 												<th>Free CPUs</th>
 												<th>Memory Usage</th>
 											</tr>
@@ -162,13 +166,9 @@
 											<tr ng-repeat="hosts in hosts_vms.minions">
 												<td>{{hosts.minion}}</td>
 												<td>{{_.keys(hosts.vm_info).length}}</td>
-												<td>{{hosts.node_info.phymemory / 1024}} GB</td>
+												<td>{{hosts.node_info.phymemory}} MB</td>
 												<td>{{hosts.node_info.cpus}}</td>
 												<td>{{hosts.node_info.cpumhz}}</td>
-												<td>{{hosts.node_info.cpucores}}</td>
-												<td>{{hosts.node_info.cpumodel}}</td>
-												<td>{{hosts.node_info.cputhreads}}</td>
-												<td>{{hosts.node_info.sockets}}</td>
 												<td>{{hosts.freecpu}}</td>
 												<td>{{hosts.freemem}}</td>
 											</tr>
