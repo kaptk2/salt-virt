@@ -1,8 +1,3 @@
-//// Edit the options.url to point to your URL
-//$.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-//	options.url = 'http://zinc.rocky.edu:8000' + options.url;
-//});
-
 $.ajaxSetup({
 	statusCode: {
 		401: function(){
