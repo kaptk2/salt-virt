@@ -80,6 +80,10 @@
 							<li class="nav-header">Operations</li>
 							<li><a href="#">Create VM</a></li>
 							<li><a href="#">Evacuate Hypervisor</a></li>
+							<li class="nav-header">Search</li>
+							<li>
+								<input type="text" class="input-medium search-query" placeholder="Search..." ng-model="query" />
+							</li>
 						</ul>
 				</div>
 				<!-- Main Content -->
@@ -108,7 +112,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr ng-repeat="vm in vms">
+											<tr ng-repeat="vm in vms | filter:query">
 												<td>{{vm.vm_info.state}}</td>
 												<td>{{vm.vm_name}}</td>
 												<td>{{vm.vm_host}}</td>
