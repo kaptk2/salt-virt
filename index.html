@@ -23,32 +23,32 @@
 		</div>
 		<!-- End Error Message-->
 		<!-- Begin Login Form-->
-		<div id="login" class="modal hide fade">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Login</h3>
-			</div>
-			<div class="modal-body form-horizontal">
-			<form id='loginForm'>
-				<div class="control-group">
-					<label class="control-label" for="username">User Name</label>
-					<div class="controls">
-						<input name='username' type='text' placeholder="User Name" />
+		<form id="loginForm" ng-controller="LoginCtrl" ng-submit="login()">
+			<div id="login" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Login</h3>
+				</div>
+				<div class="modal-body form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="username">User Name</label>
+						<div class="controls">
+							<input name='username' ng-model="user.userName" type='text' placeholder="User Name" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="password">Password</label>
+						<div class="controls">
+							<input name='password' ng-model="user.password" type='password' placeholder="Password" />
+							<input name='eauth' ng-model="user.eauth" type='hidden' value="pam" />
+						</div>
 					</div>
 				</div>
-				<div class="control-group">
-					<label class="control-label" for="password">Password</label>
-					<div class="controls">
-						<input name='password' type='password' placeholder="Password" />
-					</div>
-				</div>
-				</div>
-				<input type='hidden' name='eauth' value='pam'>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary">Login</button>
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 		<!-- End Login Form-->
 
 		<!-- Navbar -->
@@ -62,7 +62,21 @@
 					</button>
 					<a class="brand" href="./index.html">Salt-Virt</a>
 					<div class="nav-collapse collapse">
+						<p class="navbar-text pull-right">
+							<input type="text" class="input-medium search-query" placeholder="Search..." ng-model="query" />
+						</p>
 						<ul class="nav">
+							<!-- Operations Dropdown -->
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									Operations <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Create VM</a></li>
+									<li><a href="" ng-click="logout()" class="navbar-link">Logout</a></li>
+								</ul>
+							</li>
+							<!-- End Operations Dropdown -->
 							<li><a href="https://github.com/kaptk2/salt-virt">About</a></li>
 							<li><a href="https://github.com/kaptk2/salt-virt/wiki">Help</a></li>
 						</ul>
@@ -72,22 +86,7 @@
 		</div>
 
 		<div class="container">
-
-			<!-- Sidebar Links -->
-			<div class="row">
-				<div class="span3">
-						<ul class="well nav nav-list" data-spy="affix" data-offset-top="50">
-							<li class="nav-header">Operations</li>
-							<li><a href="#">Create VM</a></li>
-							<li><a href="#">Evacuate Hypervisor</a></li>
-							<li class="nav-header">Search</li>
-							<li>
-								<input type="text" class="input-medium search-query" placeholder="Search..." ng-model="query" />
-							</li>
-						</ul>
-				</div>
 				<!-- Main Content -->
-				<div class="span9">
 					<div class="well">
 						<div class="tabbable">
 							<ul class="nav nav-tabs">
@@ -130,9 +129,9 @@
 														</button>
 														<ul class="dropdown-menu">
 															<li ng-switch on="vm.vm_info.state">
-																<a href="#" ng-switch-when="running">Power Off</a>
-																<a href="#" ng-switch-when="shutdown">Power On</a>
-																<a href="#" ng-switch-when="paused">Resume</a>
+																<a href="" ng-click="power_off()" ng-switch-when="running">Power Off</a>
+																<a href="#" ng-click="power_on()" ng-switch-when="shutdown">Power On</a>
+																<a href="#" ng-click="resume()" ng-switch-when="paused">Resume</a>
 															</li>
 															<li><a href="#">Reboot</a></li>
 															<li><a href="#">Power Cycle</a></li>
@@ -140,7 +139,7 @@
 															<li class="divider">
 															<li><a href="#">Edit Machine</a></li>
 															<li><a href="#">Migrate Machine</a></li>
-															<li class="divider"></a></li>
+															<li class="divider"></li>
 															<li><a href="#">Remove Machine</a></li>
 														</ul>
 													</div>
@@ -163,7 +162,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr ng-repeat="hosts in hosts_vms.minions">
+											<tr ng-repeat="hosts in hosts_vms.minions | filter:query">
 												<td>{{hosts.minion}}</td>
 												<td>{{_.keys(hosts.vm_info).length}}</td>
 												<td>{{hosts.node_info.phymemory}} MB</td>
@@ -178,9 +177,7 @@
 							</div>
 						</div>
 					</div>
-				</div><!--/span-->
-			</div><!--/row-->
-		</div><!--/.fluid-container-->
+				</div>
 
 		<!-- JavaScript Libraries -->
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -192,5 +189,6 @@
 		<!-- Application Scripts -->
 		<script src="js/util.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/controllers.js"></script>
 	</body>
 </html>
