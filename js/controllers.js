@@ -69,4 +69,44 @@ function VmListCtrl($scope, $cookies) {
 	.fail(function() {
 		console.log("error getting data");
 	});
+
+	$scope.powerOff = function (vmName) {
+		alert("The vm to be powered off is: " + vmName);
+	}
+
+	$scope.powerOn = function (vmName) {
+		alert("The vm to be powered on is: " + vmName);
+	}
+
+	$scope.resume = function (vmName) {
+		alert("The vm to be resume is: " + vmName);
+	}
+
+	$scope.reboot = function (vmName) {
+		alert("The vm to be rebooted is: " + vmName);
+	}
+
+	$scope.cycle = function (vmName) {
+		alert("The vm to be power cycled is: " + vmName);
+	}
+
+	$scope.force = function (vmName) {
+		alert("The vm to be forced off is: " + vmName);
+	}
+
+	$scope.remove = function (vmName) {
+		alert("The vm to be removed is: " + vmName);
+	}
+
+	$scope.evacuate = function (hypervisor) {
+		alert("The hypervior to be evacuated is: " + hypervisor);
+	}
+
+	$scope.hostReboot = function (hypervisor) {
+		alert("The hypervior to be rebooted is: " + hypervisor);
+	}
+
+	$scope.hostOff = function (hypervisor) {
+		alert("The hypervior to be powered off is: " + hypervisor);
+	}
 }

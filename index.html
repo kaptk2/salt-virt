@@ -129,18 +129,18 @@
 														</button>
 														<ul class="dropdown-menu">
 															<li ng-switch on="vm.vm_info.state">
-																<a href="" ng-click="power_off()" ng-switch-when="running">Power Off</a>
-																<a href="#" ng-click="power_on()" ng-switch-when="shutdown">Power On</a>
-																<a href="#" ng-click="resume()" ng-switch-when="paused">Resume</a>
+																<a href="" ng-click="powerOff(vm.vm_name)" ng-switch-when="running">Power Off</a>
+																<a href="" ng-click="powerOn(vm.vm_name)" ng-switch-when="shutdown">Power On</a>
+																<a href="" ng-click="resume(vm.vm_name)" ng-switch-when="paused">Resume</a>
 															</li>
-															<li><a href="#">Reboot</a></li>
-															<li><a href="#">Power Cycle</a></li>
-															<li><a href="#">Force Off</a></li>
+															<li><a href="" ng-click="reboot(vm.vm_name)">Reboot</a></li>
+															<li><a href="" ng-click="cycle(vm.vm_name)">Power Cycle</a></li>
+															<li><a href="" ng-click="force(vm.vm_name)">Force Off</a></li>
 															<li class="divider">
 															<li><a href="#">Edit Machine</a></li>
 															<li><a href="#">Migrate Machine</a></li>
 															<li class="divider"></li>
-															<li><a href="#">Remove Machine</a></li>
+															<li><a href="" ng-click="remove(vm.vm_name)">Remove Machine</a></li>
 														</ul>
 													</div>
 												</td>
@@ -159,6 +159,7 @@
 												<th>CPU MHz</th>
 												<th>Free CPUs</th>
 												<th>Memory Usage</th>
+												<th>Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -170,6 +171,20 @@
 												<td>{{hosts.node_info.cpumhz}}</td>
 												<td>{{hosts.freecpu}}</td>
 												<td>{{hosts.freemem}}</td>
+												<td>
+													<div class="btn-group">
+														<button class="btn btn-info">View Details</button>
+														<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+														<span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu">
+															<li><a href="" ng-click="evacuate(hosts.minion)">Evacuate</a></li>
+															<li class="divider">
+															<li><a href="" ng-click="hostReboot(hosts.minion)">Reboot</a></li>
+															<li><a href="" ng-click="hostOff(hosts.minion)">Power Off</a></li>
+														</ul>
+													</div>
+												</td>
 											</tr>
 										</tbody>
 									</table>
