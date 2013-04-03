@@ -63,15 +63,41 @@ function VmListCtrl($scope, $cookies) {
 		$scope.hosts_vms = full_data;
 		$scope.vms = vm_data;
 		$scope._ = window._;
-		$scope.$apply();
 
+		$scope.cancel = function () {
+			PopupService.close();
+		};
+
+		$scope.doIt = function () {
+			alert("you did it");
+			PopupService.close();
+		};
+
+		$scope.$apply();
 	})
 	.fail(function() {
 		console.log("error getting data");
 	});
 
-	$scope.request = function (name, action) {
-		alert("The vm/hypervisor to " + action + " is: " + name);
+// Button Handlers
+	$scope.virtCall = function (host, vm, action) {
+		$.ajax({
+			type: "POST",
+			url: '/',
+			headers: {
+				"Accept": "application/json", 
+				"X-Auth-Token": token
+			},
+			data: { client: "local", tgt: host, fun: action , arg: vm}
+		})
+		.done(function(data) {
+			// Made the Call
+			console.log('Call to salt-api successful\n\tHost: ' + host +'\n\tAction: ' + action + '\n\tVM: ' + vm);
+			console.log(data)
+		})
+		.fail(function() {
+			// Error
+			alert('The action failed\nHost: ' + host +' Action: ' + action + ' VM: ' + vm);
+		});
 	}
-
 }

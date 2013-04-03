@@ -1,3 +1,10 @@
-body { padding-top: 60px; background: url('/img/pw_maze_black.png')}
+body {padding-top: 60px; background: url('/img/pw_maze_black.png')}
 
 .well {background: url('/img/pw_maze_white.png')}
+
+
+.boxsizingBorder {
+	-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+			box-sizing: border-box;
+}
