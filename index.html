@@ -23,7 +23,7 @@
 		</div>
 		<!-- End Error Message-->
 
-		<!-- Begin Login Form-->
+<!-- Begin Login Form-->
 		<form id="loginForm" ng-controller="LoginCtrl" ng-submit="login()">
 			<div id="login" class="modal hide fade">
 				<div class="modal-header">
@@ -86,7 +86,7 @@
 			</div>
 		</div><!-- End Navbar -->
 
-		<div class="container"><!-- Main Content -->
+		<div id='content' class="container"><!-- Main Content -->
 			<div class="well">
 				<!-- Message Center -->
 				<textarea ngModel="messages" rows="1" style="width: 100%;" placeholder="Messages: TODO"></textarea>
@@ -101,15 +101,6 @@
 						</li>
 					</ul>
 					<div class="tab-content" ng-controller="VmListCtrl">
-
-
-
-	<ng-confirm title="My Confirm Box" action-text="Do you want to do this?" action-button-text="Yes Sir" action-function="doIt()" cancel-button-text="No Way" cancel-function="cancel()">
-		<a>Test Confirm</a>
-	</ng-confirm>
-
-
-
 						<div class="tab-pane active" id="vms">
 							<table class="table table-hover">
 								<thead>
@@ -141,24 +132,36 @@
 												</button>
 												<ul class="dropdown-menu">
 													<li ng-switch on="vm.vm_info.state">
-														<a href="" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.shutdown')" ng-switch-when="running">Power Off</a>
-														<a href="" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.start')" ng-switch-when="shutdown">Power On</a>
-														<a href="" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.resume')" ng-switch-when="paused">Resume</a>
+														<a ng-switch-when="running" ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.shutdown')">
+															Power Off
+														</a>
+														<a ng-switch-when="shutdown" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.start')">Power On</a>
+														<a ng-switch-when="paused" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.resume')">Resume</a>
 													</li>
 													<li ng-show="vm.vm_info.state == 'running'">
-														<a href="" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.reboot')">Reboot</a>
+														<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.reboot')">
+															Reboot
+														</a>
 													</li>
 													<li ng-show="vm.vm_info.state == 'running'">
-														<a href="" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.reset')">Power Cycle</a>
+														<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.reset')">
+															Power Cycle
+														</a>
 													</li>
 													<li ng-show="vm.vm_info.state == 'running'">
-														<a href="" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.destroy')">Force Off</a>
+														<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.destroy')">
+															Force Off
+														</a>
 													</li>
 													<li class="divider">
 													<li><a href="#">Edit Machine</a></li>
 													<li><a href="#">Migrate Machine</a></li>
 													<li class="divider"></li>
-													<li><a href="#">Remove Machine</a></li>
+													<li>
+														<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.purge')">
+															Remove Machine
+														</a>
+													</li>
 												</ul>
 											</div>
 										</td>
@@ -213,11 +216,13 @@
 		</div>
 
 		<!-- JavaScript Libraries -->
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular.min.js"></script>
+		<!-- TODO make this to the minified version when it is fixed -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.2.0/ui-bootstrap-tpls.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular-cookies.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 		<!-- Application Scripts -->
 		<script src="js/util.js"></script>

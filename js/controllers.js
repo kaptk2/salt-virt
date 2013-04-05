@@ -34,7 +34,7 @@ function LoginCtrl ($scope, $cookies) {
 };
 
 // Main View
-function VmListCtrl($scope, $cookies) {
+function VmListCtrl($scope, $cookies, $dialog) {
 	var token = ($cookies.session_id) ? $cookies.session_id : "null"
 	// Load VM's from Server
 	$.ajax({
@@ -64,15 +64,6 @@ function VmListCtrl($scope, $cookies) {
 		$scope.vms = vm_data;
 		$scope._ = window._;
 
-		$scope.cancel = function () {
-			PopupService.close();
-		};
-
-		$scope.doIt = function () {
-			alert("you did it");
-			PopupService.close();
-		};
-
 		$scope.$apply();
 	})
 	.fail(function() {
@@ -97,7 +88,52 @@ function VmListCtrl($scope, $cookies) {
 		})
 		.fail(function() {
 			// Error
-			alert('The action failed\nHost: ' + host +' Action: ' + action + ' VM: ' + vm);
+			alert('The action failed\n\tHost: ' + host +'\n\tAction: ' + action + '\n\tVM: ' + vm);
 		});
 	}
+
+	$scope.confirm = function(host, vm, action){
+		switch(action) {
+			case 'virt.shutdown':
+				var title = 'Warning: Power off ' + vm + '?';
+				var msg = 'Warning you are about to power off ' + vm + '. Are you sure you want to continue?';
+				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-primary'}];
+				break;
+
+			case 'virt.reboot':
+				var title = 'Warning: Reboot ' + vm + '?';
+				var msg = 'Warning you are about to reboot ' + vm + '. Are you sure you want to continue?';
+				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-primary'}];
+				break;
+
+			case 'virt.reset':
+				var title = 'Warning: Power cycle ' + vm + '?';
+				var msg = 'Warning you are about to power cycle ' + vm + '. Are you sure you want to continue?';
+				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-primary'}];
+				break;
+
+			case 'virt.destroy':
+				var title = 'Warning: Force off ' + vm + '?';
+				var msg = 'Warning you are about to force off ' + vm + '. Are you sure you want to continue?';
+				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-danger'}];
+				break;
+
+			case 'virt.purge':
+				var title = 'Warning: Purge ' + vm + '?';
+				var msg = 'Warning you are about to purge ' + vm + '. This operation unable to be reversed. Are you sure you want to continue?';
+				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'DANGER!', cssClass: 'btn-danger'}];
+				break;
+
+			default:
+				alert('Invalid action. This is a problem.');
+		}
+
+		$dialog.messageBox(title, msg, btns)
+			.open()
+			.then(function(result){
+				if(result == 'yes') {
+					$scope.virtCall(host, vm, action);
+				}
+			});
+	};
 }
