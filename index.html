@@ -199,10 +199,22 @@
 												<span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu">
-													<li><a href="" ng-click="request(hosts.minion, 'evacuate')">Evacuate</a></li>
+													<li>
+														<a href="#">
+															Evacuate - TODO
+														</a>
+													</li>
 													<li class="divider">
-													<li><a href="" ng-click="request(hosts.minion, 'hostReboot')">Reboot</a></li>
-													<li><a href="" ng-click="request(hosts.minion, 'hostOff')">Power Off</a></li>
+													<li>
+														<a ng-click="confirm(hosts.minion, 'reboot', 'cmd.run')">
+															Reboot
+														</a>
+													</li>
+													<li>
+														<a ng-click="confirm(hosts.minion, 'shutdown -h now', 'cmd.run')">
+															Power Off
+														</a>
+													</li>
 												</ul>
 											</div>
 										</td>
@@ -221,8 +233,8 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.2.0/ui-bootstrap-tpls.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular-cookies.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.js"></script>
 
 		<!-- Application Scripts -->
 		<script src="js/util.js"></script>

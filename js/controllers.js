@@ -71,7 +71,7 @@ function VmListCtrl($scope, $cookies, $dialog) {
 	});
 
 // Button Handlers
-	$scope.virtCall = function (host, vm, action) {
+	$scope.virtCall = function (host, arg, action) {
 		$.ajax({
 			type: "POST",
 			url: '/',
@@ -79,60 +79,68 @@ function VmListCtrl($scope, $cookies, $dialog) {
 				"Accept": "application/json", 
 				"X-Auth-Token": token
 			},
-			data: { client: "local", tgt: host, fun: action , arg: vm}
+			data: { client: "local", tgt: host, fun: action , arg: arg}
 		})
 		.done(function(data) {
-			// Made the Call
-			console.log('Call to salt-api successful\n\tHost: ' + host +'\n\tAction: ' + action + '\n\tVM: ' + vm);
+			// Made the Call TODO see if call was successful.
+			console.log('Call to salt-api successful\n\tHost: ' + host +'\n\tAction: ' + action + '\n\tArg: ' + arg);
 			console.log(data)
 		})
 		.fail(function() {
 			// Error
-			alert('The action failed\n\tHost: ' + host +'\n\tAction: ' + action + '\n\tVM: ' + vm);
+			alert('The action failed\n\tHost: ' + host +'\n\tAction: ' + action + '\n\tArg: ' + arg);
 		});
 	}
 
-	$scope.confirm = function(host, vm, action){
+	$scope.confirm = function(host, arg, action){
 		switch(action) {
 			case 'virt.shutdown':
-				var title = 'Warning: Power off ' + vm + '?';
-				var msg = 'Warning you are about to power off ' + vm + '. Are you sure you want to continue?';
+				var title = 'Warning: Power Off';
+				var msg = 'You are about to power off ' + arg + '. Are you sure you want to continue?';
 				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-primary'}];
 				break;
 
 			case 'virt.reboot':
-				var title = 'Warning: Reboot ' + vm + '?';
-				var msg = 'Warning you are about to reboot ' + vm + '. Are you sure you want to continue?';
+				var title = 'Warning: Reboot';
+				var msg = 'You are about to reboot ' + arg + '. Are you sure you want to continue?';
 				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-primary'}];
 				break;
 
 			case 'virt.reset':
-				var title = 'Warning: Power cycle ' + vm + '?';
-				var msg = 'Warning you are about to power cycle ' + vm + '. Are you sure you want to continue?';
+				var title = 'Warning: Power Cycle';
+				var msg = 'You are about to power cycle ' + arg + '. Are you sure you want to continue?';
 				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-primary'}];
 				break;
 
 			case 'virt.destroy':
-				var title = 'Warning: Force off ' + vm + '?';
-				var msg = 'Warning you are about to force off ' + vm + '. Are you sure you want to continue?';
+				var title = 'Warning: Force Off ';
+				var msg = 'Warning you are about to force off ' + arg + '. Are you sure you want to continue?';
 				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'Yes', cssClass: 'btn-danger'}];
 				break;
 
 			case 'virt.purge':
-				var title = 'Warning: Purge ' + vm + '?';
-				var msg = 'Warning you are about to purge ' + vm + '. This operation unable to be reversed. Are you sure you want to continue?';
+				var title = 'Warning: Purge';
+				var msg = 'Warning you are about to purge ' + arg + '. This operation unable to be reversed. Are you sure you want to continue?';
+				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'DANGER!', cssClass: 'btn-danger'}];
+				break;
+
+			case 'cmd.run':
+				var title = 'Warning!';
+				var msg = 'You are about to '+ arg +' a hypervisor, this may effect a large number of virtual machines. Are you sure you want to continue?';
 				var btns = [{result:'cancel', label: 'Cancel'}, {result:'yes', label: 'DANGER!', cssClass: 'btn-danger'}];
 				break;
 
 			default:
-				alert('Invalid action. This is a problem.');
+				var title = 'Invalid Action';
+				var msg = 'The requested action: ' + action + 'is not defined.';
+				var btns = [{result:'cancel', label: 'Cancel'}];
 		}
 
 		$dialog.messageBox(title, msg, btns)
 			.open()
 			.then(function(result){
 				if(result == 'yes') {
-					$scope.virtCall(host, vm, action);
+					$scope.virtCall(host, arg, action);
 				}
 			});
 	};
