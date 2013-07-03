@@ -1,0 +1,33 @@
+<div modal="shouldBeOpen" close="close()" options="opts">
+	<div class="modal-header">
+		<h4>Migrate Machine</h4>
+	</div>
+	<div class="modal-body">
+		<div>
+			Migrate <b>{{vmName}}</b> to: 
+			<select ng-model="migrate.dest" ng-options="host.minion as host.minion for host in hosts_vms.minions" ng-hide="hyperName == hosts.minion">
+				<option value="">best host (automatic)</option>
+			</select>.
+		</div>
+		<h5>Migration Type:</h5>
+		<div>
+			<label class="radio inline">
+				<input ng-model="migrate.storage" type="radio" name="storage" value="shared">
+				Shared Storage
+			</label>
+			<label class="radio inline">
+				<input ng-model="migrate.storage" type="radio" name="storage" value="nonShared">
+				Non-Shared Storage
+			</label>
+			<label class="radio inline">
+				<input ng-model="migrate.storage" type="radio" name="storage" value="offline">
+				Offline Migration
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-info" ng-click="doMigrate(migrate)">Migrate Machine</button>
+		<button class="btn" ng-click="close()">Cancel</button>
+	</div>
+</div>

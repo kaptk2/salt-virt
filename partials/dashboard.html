@@ -1,0 +1,142 @@
+<div id='content' class="container"><!-- Main Content -->
+	<div class="well">
+		<!-- Message Center -->
+		<textarea ngModel="messages" rows="1" style="width: 100%;" placeholder="Messages: TODO"></textarea>
+		<!-- End Message Center -->
+		<div class="tabbable">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#vms" data-toggle="tab">Virtual Machines</a>
+				</li>
+				<li>
+					<a href="#hosts" data-toggle="tab">Hosts</a>
+				</li>
+			</ul>
+			<div class="tab-content" ng-controller="VmListCtrl">
+				<div class="tab-pane active" id="vms">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Status</th>
+								<th>VM Name</th>
+								<th>Host</th>
+								<th>Memory</th>
+								<th>Max Memory</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="vm in vms | filter:query">
+								<td ng-switch on="vm.vm_info.state" style="text-align: center;">
+									<i class="icon-play" ng-switch-when="running"></i>
+									<i class="icon-stop" ng-switch-when="shutdown"></i>
+									<i class="icon-pause" ng-switch-when="paused"></i>
+								</td>
+								<td>{{vm.vm_name}}</td>
+								<td>{{vm.vm_host}}</td>
+								<td>{{vm.vm_info.mem / 1024}} MB</td>
+								<td>{{vm.vm_info.maxMem / 1024}} MB</td>
+								<td>
+									<div class="btn-group">
+										<button class="btn btn-info">Open Machine</button>
+										<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+										<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<li ng-switch on="vm.vm_info.state">
+												<a ng-switch-when="running" ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.shutdown')">
+													Power Off
+												</a>
+												<a ng-switch-when="shutdown" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.start')">Power On</a>
+												<a ng-switch-when="paused" ng-click="virtCall(vm.vm_host, vm.vm_name, 'virt.resume')">Resume</a>
+											</li>
+											<li ng-show="vm.vm_info.state == 'running'">
+												<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.reboot')">
+													Reboot
+												</a>
+											</li>
+											<li ng-show="vm.vm_info.state == 'running'">
+												<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.reset')">
+													Power Cycle
+												</a>
+											</li>
+											<li ng-show="vm.vm_info.state == 'running'">
+												<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.destroy')">
+													Force Off
+												</a>
+											</li>
+											<li class="divider">
+											<li><a href="#">Edit Machine</a></li>
+											<li><a ng-click="open(vm.vm_host, vm.vm_name)">Migrate Machine</a></li>
+											<li class="divider"></li>
+											<li>
+												<a ng-click="confirm(vm.vm_host, vm.vm_name, 'virt.purge')">
+													Remove Machine
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane" id="hosts">
+					<table class="table table-hover table-bordered">
+						<thead>
+							<tr>
+								<th>Host Name</th>
+								<th>#VMs</th>
+								<th>Memory Total</th>
+								<th>CPUs</th>
+								<th>CPU MHz</th>
+								<th>Free CPUs</th>
+								<th>Memory Usage</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="hosts in hosts_vms.minions | filter:query">
+								<td>{{hosts.minion}}</td>
+								<td>{{_.keys(hosts.vm_info).length}}</td>
+								<td>{{hosts.node_info.phymemory}} MB</td>
+								<td>{{hosts.node_info.cpus}}</td>
+								<td>{{hosts.node_info.cpumhz}}</td>
+								<td>{{hosts.freecpu}}</td>
+								<td>{{hosts.freemem}}</td>
+								<td>
+									<div class="btn-group">
+										<button class="btn btn-info">View Details</button>
+										<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+										<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="#">
+													Evacuate - TODO
+												</a>
+											</li>
+											<li class="divider">
+											<li>
+												<a ng-click="confirm(hosts.minion, 'reboot', 'cmd.run')">
+													Reboot
+												</a>
+											</li>
+											<li>
+												<a ng-click="confirm(hosts.minion, 'shutdown -h now', 'cmd.run')">
+													Power Off
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- Migrate Modal Window -->
+				<div ng-include src="'/partials/migrate.html'"></div>
+			</div>
+		</div>
+	</div>
+</div>
